@@ -10,13 +10,15 @@ void loop() {
   //Cria variaveis para saber quais sensores são quais
   int sensorFora = digitalRead(8), sensorDentro = digitalRead(7);
   //Criar duas variaveis estáticas para não cairem no loop
-  static int pessoasSala = 0, c;
+  static int pessoasSala = 0, c, c2 = 0;
 
   delay(100);
 
+
   //Vê se o sensor de fora foi detectado se for da 1 para a variavel de controle
-  if(sensorFora < 1){
+  if(sensorFora < 1 && c2 == 0){
     c = 1;
+    c2 = 1;
   }
   
   //Depois vê se o sensor de dentro vai ser detectado logo depois se for, ele vai adicionar uma pessoas pois primeiro passou pelo sensor de fora
@@ -25,16 +27,19 @@ void loop() {
     Serial.println("Pessoas na sala:");
     Serial.println(pessoasSala);
     c = 0;
+    c2 = 2;
     }
-
-  //NÃO FUNCIONANDO!!!
-  if(sensorDentro < 1){
+      
+  if(sensorDentro < 1 && c2 == 2 && c != 1){
     c = 2;
+    c2 = 1;
   }
   if(sensorFora < 1 && c == 2){
     pessoasSala--;
     Serial.println("Pessoas na sala:");
     Serial.println(pessoasSala);
     c = 0;
+    c2 = 0;
   }
  }
+ 
